@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "mkdir/libmkdir.h"
 
 int main(int argc, char** argv){
 	char* command = strchr(argv[0], '/');
@@ -11,8 +12,8 @@ int main(int argc, char** argv){
 	if(strcmp(command, "minibusybox") == 0)
 		printf("Available commands:\n \n");
 	else if(argc == 2){
-		if(strcmp(command, "command") == 0)
-			return function(argv[1]);
+		if(strcmp(command, "mkdir") == 0)
+			return createDirectory(argv[1]);
 		else
 			printf("Unknown command\n");
 	}else
