@@ -2,9 +2,9 @@ CROSS_COMPILE =
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
 TARGET = minibusybox
-LIB_PATH = 
-LIB_NAME = 
-LIBS = 
+LIB_PATH = mkdir
+LIB_NAME = mkdir
+LIBS = -lmkdir
 MAIN = minibusybox.c
 
 .PHONY: all install clean
