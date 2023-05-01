@@ -2,24 +2,25 @@ CROSS_COMPILE =
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
 TARGET = minibusybox
-LIB_PATH = mkdir
-LIB_NAME = mkdir
-LIBS = -lmkdir
+MKDIR_PATH =libRm
+LIBS = -lrm
 MAIN = minibusybox.c
 
 .PHONY: all install clean
-
 all: $(TARGET)
 
-$(TARGET): main.o lib$(LIB_NAME).so
+$(TARGET): main.o librm.so
 	$(CC) $(CFLAGS) $< $(LIBS) -L. -o $@
+	ln -s $@ rm;
 main.o: $(MAIN)
 	$(CC) $(CFLAGS) -c $< -o $@
-lib$(LIB_NAME).so: $(LIB_PATH)/$(LIB_NAME).c $(LIB_PATH)/lib$(LIB_NAME).h
-	$(CC) $(CFLAGS) -c -fpic $< -o $(LIB_NAME).o
-	$(CC) -shared -o $@ $(LIB_NAME).o
-install: lib$(LIB_NAME).so
+librm.so: $(MKDIR_PATH)/rm.c $(MKDIR_PATH)/rm.h
+	$(CC) $(CFLAGS) -c -fpic $< -o rm.o
+	$(CC) -shared -o $@ rm.o
+install: librm.so
 	sudo cp $< /usr/lib
-	sudo cp $(LIB_PATH)/lib$(LIB_NAME).h /usr/include
+	sudo cp $(MKDIR_PATH)/rm.h /usr/include
 clean:
-	rm *.o *.so $(TARGET)
+	rm *.o *.so $(TARGET) rm
+
+
