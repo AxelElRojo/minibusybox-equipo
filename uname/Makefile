@@ -12,7 +12,7 @@ $(TARGET): $(LIB_NAME).c lib$(LIB_NAME).h
 	$(CC) $(CFLAGS) -c -fpic $< -o $(LIB_NAME).o
 	$(CC) -shared -o $@ $(LIB_NAME).o
 install: $(TARGET)
-	sudo cp $< /usr/lib
-	sudo cp lib$(LIB_NAME).h /usr/include
+	scp $< debian@192.168.7.2:~/
+	scp lib$(LIB_NAME).h debian@192.168.7.2:~/
 clean:
 	rm *.o *.so

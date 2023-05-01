@@ -11,7 +11,7 @@ $(TARGET): rm.c librm.h
 	$(CC) $(CFLAGS) -c -fpic $< -o rm.o
 	$(CC) -shared -o $@ rm.o
 install: $(TARGET)
-	sudo cp $< /usr/lib
-	sudo cp librm.h /usr/include
+	scp $< debian@192.168.7.2:~/
+	scp lib$(LIB_NAME).h debian@192.168.7.2:~/
 clean:
 	rm *.o *.so
