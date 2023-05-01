@@ -2,13 +2,12 @@ CROSS_COMPILE =
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
 TARGET = minibusybox
-LIB_PATH = mkdir
-LIB_NAME = mkdir
-LIBS = -lmkdir
+LIB_PATH = uname
+LIB_NAME = uname
+LIBS = -luname
 MAIN = minibusybox.c
 
 .PHONY: all install clean
-
 all: $(TARGET)
 
 $(TARGET): main.o lib$(LIB_NAME).so

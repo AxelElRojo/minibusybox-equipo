@@ -1,47 +1,22 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-//#include "libCat/cat.h"
-#include "libRm/rm.h"
+#include "mkdir/libmkdir.h"
 
-bool endsWith(char const *in, char const *comp);
-
-int main(int argc, char* argv[])
-{
-   char *cmd = argv[0];
-
-   // select whether command is on, off, flash or status
-   if(endsWith(cmd,"touch"))
-   {
-//      s_touch( argc, argv );
-   }
-   else if (endsWith(cmd,"chmod"))
-   {
-//      s_chmod( argc, argv );
-   }
-   else if (endsWith(cmd,"sleep"))
-   {
-//      s_sleep( argc, argv );
-   }
-   else if ( endsWith(cmd,"cat"))
-   {
-//      s_cat( argc, argv );
-   }
-   else if ( endsWith(cmd,"rm"))
-   {
-      s_rm( argc, argv );
-   }
-   else
-   {
-	    printf("Invalid command!\n");
-   }
-
-   return 0;
-}
-
-bool endsWith(char const *in, char const *comp)
-{
-   int int_l = strlen(in);
-   int comp_l = strlen(comp);
-   return (0== strcmp(&in[int_l - comp_l],comp   ));
+int main(int argc, char** argv){
+	char* command = strchr(argv[0], '/');
+	if(command == NULL)
+		command = argv[0];
+	else
+		command += 1;
+	if(strcmp(command, "minibusybox") == 0)
+		printf("Available commands:\n \n");
+	else if(argc == 2){
+		if(strcmp(command, "mkdir") == 0)
+			return createDirectory(argv[1]);
+		else
+			printf("Unknown command\n");
+	}else
+		printf("Usage: %s <argument>\n", argv[0]);
+	return 0;
 }
