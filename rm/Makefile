@@ -1,8 +1,9 @@
 CROSS_COMPILE =
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
-TARGET = librm.so
-LIBS = -lrm
+LIB_NAME = rm
+TARGET = lib$(LIB_NAME).so
+LIBS = -l$(LIB_NAME)
 
 .PHONY: all install clean
 all: $(TARGET)
