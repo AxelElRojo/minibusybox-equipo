@@ -6,8 +6,11 @@ MKDIR_PATH =libRm
 LIBS = -lrm
 MAIN = minibusybox.c
 
+
 .PHONY: all install clean
 all: $(TARGET)
+
+#------------
 
 $(TARGET): main.o librm.so
 	$(CC) $(CFLAGS) $< $(LIBS) -L. -o $@
