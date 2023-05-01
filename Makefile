@@ -2,24 +2,31 @@ CROSS_COMPILE =
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
 TARGET = minibusybox
-LIB_PATH = mkdir
-LIB_NAME = mkdir
-LIBS = -lmkdir
+LIB_MKDIR = mkdir
+LIB_UNAME = uname
+LIB_RM = rm
+LIBS = -lmkdir -luname -lrm
 MAIN = minibusybox.c
 
 .PHONY: all install clean
 
 all: $(TARGET)
 
-$(TARGET): main.o lib$(LIB_NAME).so
-	$(CC) $(CFLAGS) $< $(LIBS) -L. -o $@
+$(TARGET): main.o lib$(LIB_MKDIR).so lib$(LIB_UNAME).so lib$(LIB_RM).so
+	$(CC) $(CFLAGS) $< $(LIBS) -L./$(LIB_MKDIR) -L./$(LIB_UNAME) -L./$(LIB_RM) -o $@
 main.o: $(MAIN)
 	$(CC) $(CFLAGS) -c $< -o $@
-lib$(LIB_NAME).so: $(LIB_PATH)/$(LIB_NAME).c $(LIB_PATH)/lib$(LIB_NAME).h
-	$(CC) $(CFLAGS) -c -fpic $< -o $(LIB_NAME).o
-	$(CC) -shared -o $@ $(LIB_NAME).o
-install: lib$(LIB_NAME).so
+lib$(LIB_MKDIR).so:
+	cd $(LIB_MKDIR) && make CROSS_COMPILE=$(CROSS_COMPILE)
+lib$(LIB_UNAME).so: $(LIB_UNAME)/$(LIB_UNAME).c $(LIB_UNAME)/lib$(LIB_UNAME).h
+	cd $(LIB_UNAME) && make CROSS_COMPILE=$(CROSS_COMPILE)
+lib$(LIB_RM).so: $(LIB_RM)/$(LIB_RM).c $(LIB_RM)/lib$(LIB_RM).h
+	cd $(LIB_RM) && make CROSS_COMPILE=$(CROSS_COMPILE)
+install: lib$(LIB_MKDIR).so lib$(LIB_UNAME).so lib$(LIB_RM).so
 	sudo cp $< /usr/lib
 	sudo cp $(LIB_PATH)/lib$(LIB_NAME).h /usr/include
 clean:
-	rm *.o *.so $(TARGET)
+	rm *.o $(TARGET)
+	cd $(LIB_MKDIR) && make clean
+	cd $(LIB_UNAME) && make clean
+	cd $(LIB_RM) && make clean
