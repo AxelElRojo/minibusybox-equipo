@@ -7,6 +7,10 @@ LIB_NAME = mkdir
 LIBS = -lmkdir
 MAIN = minibusybox.c
 
+
+#--------------------
+
+
 .PHONY: all install clean
 
 all: $(TARGET)
